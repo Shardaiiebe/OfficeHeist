@@ -4,14 +4,14 @@ _Will be added on/will be altered_
 
 ### Core gamplay mechanics:
 
-- fov for both the player and enemies
+- fov for the enemies/camera's
 - minimap that tracks enemies or clock
 - minigames
 
 ### Player:
 
 - basic player movement with arrow keys or wasd, interact with space bar
-- trackable on the minimap
+- trackable on the minimap (if we implement this)
 
 ### Enemies:
 
@@ -21,7 +21,7 @@ _Will be added on/will be altered_
 
 ### Sprites and animations:
 
-- make or find sprites
+- make or find spritessheets
 - make or find tilemaps
 
 ### Sound:
