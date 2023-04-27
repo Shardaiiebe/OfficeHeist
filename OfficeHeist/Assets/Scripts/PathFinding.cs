@@ -44,9 +44,6 @@ public class PathFinding : MonoBehaviour,IBehave
 
         Vector2 direction = destination - currentLocation;
         direction.Normalize();
-            Vector2 direction = destination - currentLocation;
-            direction.Normalize();
-            Vector2 direction = destination - currentLocation;
         Vector2 newPosition = currentLocation + (direction * 2f * Time.deltaTime);
         transform.position = newPosition;
         print(isWaiting);
@@ -83,13 +80,6 @@ public class PathFinding : MonoBehaviour,IBehave
         else if (targetReached == true)
         {
             targetReached = false;
-        }
-        isWaiting = false;
-        yield return new WaitForSeconds(waypoints[currentTarget-1].GetComponent<WaypointParameter>().waittime);
-         
-        targetReached = false;
-        isWaiting = false;
-        yield return new WaitForSeconds(waypoints[currentTarget-1].GetComponent<WaypointParameter>().waittime);
-         
+        }         
     }
 }
