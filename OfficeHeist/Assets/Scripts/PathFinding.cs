@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PathFinding : MonoBehaviour
@@ -54,26 +55,41 @@ public class PathFinding : MonoBehaviour
             Vector2 newPosition = currentLocation + (direction * speed * Time.deltaTime);
             transform.position = newPosition;
 
+            
 
             if (distance < 1f && targetReached == false )
             {
                 targetReached = true;
                 if (reverse == false)
                 {
+                    print("if 1");
                     currentTarget++;
                 }
                 else
-                    currentTarget--;
-
-                if (currentTarget == waypoints.Count - 1 )
                 {
+                    currentTarget--;
+                    print("if 2");
+                }
+
+                if (currentTarget == waypoints.Count)
+                {
+                    print("if 3");
+
                     reverse = true;
                 }
                 else if (currentTarget == 0)
                 {
+                    print("if 4");
+
                     reverse = false;
                 }
-                speed = waypoints[currentTarget-1].GetComponent<WaypointParameter>().movingspeed;
+
+                if (currentTarget != 0)
+                {
+                    print("if 5");
+                    speed = waypoints[currentTarget - 1].GetComponent<WaypointParameter>().movingspeed;
+
+                }
             }
             else if (targetReached == true)
             {
@@ -85,8 +101,12 @@ public class PathFinding : MonoBehaviour
 
     IEnumerator Idle()
     {
-          yield return new WaitForSeconds(waypoints[currentTarget-1].GetComponent<WaypointParameter>().waittime);
-          targetReached = false;
-          isWaiting = false;
+        print(currentTarget);
+        print("reverse: " + reverse);
+        //print(waypoints[currentTarget - 1].GetComponent<WaypointParameter>().waittime);
+        targetReached = false;
+        isWaiting = false;
+        yield return new WaitForSeconds(waypoints[currentTarget-1].GetComponent<WaypointParameter>().waittime);
+         
     }
 }
