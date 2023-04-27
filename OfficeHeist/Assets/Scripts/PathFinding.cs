@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PathFinding : MonoBehaviour,IBehave
+public class PathFinding : MonoBehaviour, IBehave
 {
-  
+
 
     public List<Transform> waypoints;
     //private agentmesh
@@ -44,14 +44,17 @@ public class PathFinding : MonoBehaviour,IBehave
 
         Vector2 direction = destination - currentLocation;
         direction.Normalize();
+
+        currentLocation = transform.position;
+
         Vector2 newPosition = currentLocation + (direction * 2f * Time.deltaTime);
         transform.position = newPosition;
         print(isWaiting);
-        if (distance < 1f && targetReached == false )
+        if (distance < 1f && targetReached == false)
         {
             targetReached = true;
 
-            
+
             if (reverse)
             {
                 currentTarget--;
@@ -60,7 +63,7 @@ public class PathFinding : MonoBehaviour,IBehave
             {
                 currentTarget++;
             }
-                    print("if 2");
+
             if (currentTarget == waypoints.Count - 1)
             {
 
@@ -70,16 +73,16 @@ public class PathFinding : MonoBehaviour,IBehave
             {
                 reverse = false;
             }
-                    reverse = false;
+
             if (currentTarget != 0)
             {
                 speed = waypoints[currentTarget - 1].GetComponent<WaypointParameter>().movingspeed;
-                    print("if 5");
+
             }
         }
         else if (targetReached == true)
         {
             targetReached = false;
-        }         
+        }
     }
 }
