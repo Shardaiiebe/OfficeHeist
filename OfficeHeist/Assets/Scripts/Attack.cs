@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour, IBehave
 {
+    [SerializeField]
+    private float speed = 1.2f;
 
-    public string temp = "i am attacking";
+    [SerializeField]
+    private GameObject player;
 
-    public void Behave()
-    {
-        print(temp);
-    }
 
     // Start is called before the first frame update
     void Start()
@@ -19,8 +18,17 @@ public class Attack : MonoBehaviour, IBehave
     }
 
     // Update is called once per frame
-    void Update()
+    public void Behave()
     {
+        Vector2 playerPos = player.transform.position;
+
+        Vector2 direction = playerPos - (Vector2)transform.position;
+        direction.Normalize();
+
+        
+
+        Vector2 newPosition = (Vector2)transform.position + (direction * speed * Time.deltaTime);
+        transform.position = newPosition;
         
     }
 }

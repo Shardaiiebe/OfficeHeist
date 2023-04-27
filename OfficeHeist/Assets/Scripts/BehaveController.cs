@@ -9,6 +9,8 @@ public enum BEHAVIOURSTATE { PATROLLING,TRACKING,ATTACKING}
 public class BehaveController : MonoBehaviour
 {
     private IBehave currentBehaviour;
+
+    [SerializeField]
     private GameObject player;
 
     [SerializeField]
@@ -26,7 +28,6 @@ public class BehaveController : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.FindWithTag("Player");
 
         foreach (Component component in waypointWrapper.GetComponentsInChildren<Transform>())
         {
