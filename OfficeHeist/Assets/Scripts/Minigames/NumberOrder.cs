@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class MiniGame : MonoBehaviour
+public class NumberOrder : MonoBehaviour
 {
     public List<Button> correctButtonOrder = new List<Button>();
     public List<Button> playerButtonOrder = new List<Button>();
