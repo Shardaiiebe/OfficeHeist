@@ -42,7 +42,6 @@ public class PathFinding : MonoBehaviour
     void Update()
     {
         
-        if (waypoints.Count > 0 && waypoints[currentTarget] != null && isWaiting == false)
         {
             destination = waypoints[currentTarget].position;
             float distance = Vector2.Distance(transform.position, destination);
