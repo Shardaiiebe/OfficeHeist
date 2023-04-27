@@ -39,7 +39,6 @@ public class PathFinding : MonoBehaviour,IBehave
 
     public void Behave()
     {
-        Debug.Log("start behavior: pattrolling");
         destination = waypoints[currentTarget].position;
         float distance = Vector2.Distance(transform.position, destination);
 
@@ -50,57 +49,40 @@ public class PathFinding : MonoBehaviour,IBehave
 
         Vector2 newPosition = currentLocation + (direction * 2f * Time.deltaTime);
         transform.position = newPosition;
-
+        print(isWaiting);
         if (distance < 1f && targetReached == false )
         {
-            Debug.Log("inside if: patrolling");
             targetReached = true;
+
+            
             if (reverse)
             {
-                print("if 1");
                 currentTarget--;
             }
-            else
+            else if (currentTarget < waypoints.Count - 1)
             {
                 currentTarget++;
-                print("if 2");
             }
 
-            if (currentTarget == waypoints.Count)
+            if (currentTarget == waypoints.Count - 1)
             {
-                print("if 3");
 
                 reverse = true;
             }
             else if (currentTarget == 0)
             {
-                print("if 4");
-
                 reverse = false;
             }
 
             if (currentTarget != 0)
             {
-                print("if 5");
                 speed = waypoints[currentTarget - 1].GetComponent<WaypointParameter>().movingspeed;
 
             }
         }
         else if (targetReached == true)
         {
-            isWaiting = true;
-            StartCoroutine(Idle());
+            targetReached = false;
         }
-    }
-
-    IEnumerator Idle()
-    {
-        print(currentTarget);
-        print("reverse: " + reverse);
-        //print(waypoints[currentTarget - 1].GetComponent<WaypointParameter>().waittime);
-        targetReached = false;
-        isWaiting = false;
-        yield return new WaitForSeconds(waypoints[currentTarget-1].GetComponent<WaypointParameter>().waittime);
-         
     }
 }

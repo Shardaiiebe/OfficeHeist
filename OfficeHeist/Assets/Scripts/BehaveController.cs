@@ -52,7 +52,6 @@ public class BehaveController : MonoBehaviour
         ChangeBehaviour();
         ChangeBehaviourClass();
         currentBehaviour.Behave();
-        print(behaviourstate);
     }
 
 
@@ -60,7 +59,6 @@ public class BehaveController : MonoBehaviour
     {
         //daniel feature
         float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
-        print(distanceToPlayer);
 
 
         if (distanceToPlayer < distanceChangeBehaviour)
