@@ -7,16 +7,18 @@ using Scene = UnityEngine.SceneManagement.Scene;
 
 public class MovementControler : MonoBehaviour
 {
-    [SerializeField]
-     private float speed = 5f;
-     private LayerMask ComputerLayer;
-     private float interactDistance = 2f;
-     private string LevelName = "Level2";
+
+    [SerializeField] private float speed = 5f;
+    [SerializeField] private LayerMask interactLayer;
+    [SerializeField] private float interactDistance = 2f;
+    [SerializeField] private string LevelName = "Level2";
 
 
 
     private bool interactingWithComputer = false;
-    
+
+
+
 
 
     private void Update()
@@ -24,17 +26,20 @@ public class MovementControler : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             Interact();
+            
         }
 
         if (interactingWithComputer && Input.GetKeyDown(KeyCode.Escape))
         {
             EndInteraction();
+            
         }
 
         // Only allow player control if not interacting with computer
         if (!interactingWithComputer)
         {
             HandlePlayerInput();
+            
         }
     }
 
@@ -51,21 +56,24 @@ public class MovementControler : MonoBehaviour
 
     private void Interact()
     {
-        Collider2D[] interactables = Physics2D.OverlapCircleAll(transform.position, interactDistance, ComputerLayer);
+        Collider2D[] interactables = Physics2D.OverlapCircleAll(transform.position, interactDistance, interactLayer);
 
         foreach (Collider2D interactable in interactables)
         {
             if (interactable.CompareTag("Computer"))
             {
+                
                 // Check if the computer scene is already loaded
                 bool sceneAlreadyLoaded = false;
                 for (int i = 0; i < SceneManager.sceneCount; i++)
                 {
                     Scene scene = SceneManager.GetSceneAt(i);
+                    
                     if (scene.name == LevelName)
                     {
                         sceneAlreadyLoaded = true;
-                        break;
+                        
+
                     }
                 }
 
