@@ -1,15 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Scene = UnityEngine.SceneManagement.Scene;
 
 public class MovementControler : MonoBehaviour
 {
-    public float speed = 5f;
-    public LayerMask interactLayer;
-    public float interactDistance = 2f;
+    [SerializeField]
+     private float speed = 5f;
+     private LayerMask ComputerLayer;
+     private float interactDistance = 2f;
+     private string LevelName = "Level2";
+
+
 
     private bool interactingWithComputer = false;
+    
+
 
     private void Update()
     {
@@ -35,7 +43,7 @@ public class MovementControler : MonoBehaviour
         float inputX = Input.GetAxis("Horizontal");
         float inputY = Input.GetAxis("Vertical");
 
-        Vector3 movement = new Vector3(speed * inputX, speed * inputY, 0);
+        Vector3 movement = new(speed * inputX, speed * inputY, 0);
         movement *= Time.deltaTime;
 
         transform.Translate(movement);
@@ -43,22 +51,46 @@ public class MovementControler : MonoBehaviour
 
     private void Interact()
     {
-        Collider2D[] interactables = Physics2D.OverlapCircleAll(transform.position, interactDistance, interactLayer);
+        Collider2D[] interactables = Physics2D.OverlapCircleAll(transform.position, interactDistance, ComputerLayer);
 
         foreach (Collider2D interactable in interactables)
         {
             if (interactable.CompareTag("Computer"))
             {
-                SceneManager.LoadScene(1);
-                interactingWithComputer = true;
-                break;
+                // Check if the computer scene is already loaded
+                bool sceneAlreadyLoaded = false;
+                for (int i = 0; i < SceneManager.sceneCount; i++)
+                {
+                    Scene scene = SceneManager.GetSceneAt(i);
+                    if (scene.name == LevelName)
+                    {
+                        sceneAlreadyLoaded = true;
+                        break;
+                    }
+                }
+
+                // Load the computer scene if it isn't already loaded
+                if (!sceneAlreadyLoaded)
+                {
+                    SceneManager.LoadSceneAsync(LevelName, LoadSceneMode.Additive);
+                    interactingWithComputer = true;
+                }
             }
         }
     }
 
     private void EndInteraction()
     {
-        SceneManager.LoadScene(0);
+        // Unload all instances of the computer scene
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            Scene scene = SceneManager.GetSceneAt(i);
+            if (scene.name == LevelName)
+            {
+                SceneManager.UnloadSceneAsync(scene);
+            }
+        }
+
         interactingWithComputer = false;
     }
 }
