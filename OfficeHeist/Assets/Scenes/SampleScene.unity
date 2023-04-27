@@ -888,6 +888,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b736dd807fc99d34b9a045e5ad4ad6eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerDetected: 0
 --- !u!4 &1425748848 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1598062871419492985, guid: db70318b05f217d4db4a750ebe451ed4, type: 3}
@@ -1233,6 +1234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53d672704f473884c87661764e9efb56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerDetection: {fileID: 1308791622}
   player: {fileID: 627581365}
   waypoints: []
   waypointWrapper: {fileID: 1631539571}
