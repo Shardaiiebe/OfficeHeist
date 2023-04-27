@@ -18,7 +18,10 @@ public class MovementControler : MonoBehaviour
     private bool interactingWithComputer = false;
 
 
-
+    private void Start()
+    {
+        
+    }
 
 
     private void Update()
