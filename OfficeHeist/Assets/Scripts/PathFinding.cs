@@ -41,71 +41,74 @@ public class PathFinding : MonoBehaviour
 
     void Update()
     {
-        
+        if (currentTarget < 0) currentTarget = 0;
+        destination = waypoints[currentTarget].position;
+        float distance = Vector2.Distance(transform.position, destination);
+        Vector2 direction = destination - currentLocation;
+        direction.Normalize();
+
+        currentLocation = transform.position;
+
+        Vector2 newPosition = currentLocation + (direction * speed * Time.deltaTime);
+        transform.position = newPosition;
+
+        if (distance < 1f && targetReached == false )
         {
-            destination = waypoints[currentTarget].position;
-            float distance = Vector2.Distance(transform.position, destination);
-
-            Vector2 direction = destination - currentLocation;
-            direction.Normalize();
-
-            currentLocation = transform.position;
-
-            Vector2 newPosition = currentLocation + (direction * speed * Time.deltaTime);
-            transform.position = newPosition;
-
-            
-
-            if (distance < 1f && targetReached == false )
+            targetReached = true;
+            if (currentTarget == waypoints.Count-1)
             {
-                targetReached = true;
-                if (reverse == false)
+                reverse = true;
+            }
+            else if (currentTarget == 0)
+            {
+                reverse = false;
+            }
+
+            if (reverse == false)
+            {
+                currentTarget++;
+            }
+            else
+            {
+                currentTarget--;
+            }
+
+            if (reverse == true)
+            {
+                if (currentTarget == 0)
                 {
-                    print("if 1");
+                    reverse = false;
                     currentTarget++;
                 }
                 else
                 {
                     currentTarget--;
-                    print("if 2");
-                }
-
-                if (currentTarget == waypoints.Count)
-                {
-                    print("if 3");
-
-                    reverse = true;
-                }
-                else if (currentTarget == 0)
-                {
-                    print("if 4");
-
-                    reverse = false;
-                }
-
-                if (currentTarget != 0)
-                {
-                    print("if 5");
-                    speed = waypoints[currentTarget - 1].GetComponent<WaypointParameter>().movingspeed;
-
                 }
             }
-            else if (targetReached == true)
+
+            if (currentTarget > 0 && currentTarget < waypoints.Count)
             {
-                isWaiting = true;
-                StartCoroutine(Idle());
+                if (reverse) speed = waypoints[currentTarget - 1].GetComponent<WaypointParameter>().movingspeed;
+                else if (currentTarget < waypoints.Count - 1) speed = waypoints[currentTarget + 1].GetComponent<WaypointParameter>().movingspeed;
             }
+
+        }
+        else if (targetReached == true)
+        {
+            print(waypoints[currentTarget].name);
+            isWaiting = true;
+            StartCoroutine(Idle());
         }
     }
 
     IEnumerator Idle()
     {
-        print(currentTarget);
-        print("reverse: " + reverse);
-        //print(waypoints[currentTarget - 1].GetComponent<WaypointParameter>().waittime);
+        print(waypoints[currentTarget - 1].GetComponent<WaypointParameter>().waittime);
         targetReached = false;
         isWaiting = false;
-        yield return new WaitForSeconds(waypoints[currentTarget-1].GetComponent<WaypointParameter>().waittime);
-         
+        //yield return new WaitForSeconds(waypoints[currentTarget-1].GetComponent<WaypointParameter>().waittime);
+        yield return new WaitForSeconds(2f);
+
+
     }
 }
