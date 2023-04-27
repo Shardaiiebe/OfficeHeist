@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PathFinding : MonoBehaviour
+public class PathFinding : MonoBehaviour,IBehave
 {
-    [SerializeField]
-    public GameObject waypointWrapper;
+  
 
-    private List<Transform> waypoints = new List<Transform>();
+    public List<Transform> waypoints;
     //private agentmesh
     private int currentTarget;
     private bool targetReached;
@@ -20,81 +19,77 @@ public class PathFinding : MonoBehaviour
 
     private bool reverse;
 
-    void Start()
+    public PathFinding(List<Transform> waypoints)
     {
+        this.waypoints = waypoints;
+
         destination = new Vector2(0, 0);
         currentTarget = 0;
         currentLocation = transform.position;
         targetReached = false;
-        
 
-        foreach (Component component in waypointWrapper.GetComponentsInChildren<Transform>())
-        {
 
-            waypoints.Add((Transform)component);
-        }
+
 
         //meest belachelijke oplossing maar het werkt 
-        waypoints.RemoveAt(0);
-        speed = waypoints[currentTarget].GetComponent<WaypointParameter>().movingspeed;
+        speed = 2f;
+
+        //speed = waypoints[currentTarget].GetComponent<WaypointParameter>().movingspeed;
     }
 
-    void Update()
+    public void Behave()
     {
-        
+        Debug.Log("start behavior: pattrolling");
+        destination = waypoints[currentTarget].position;
+        float distance = Vector2.Distance(transform.position, destination);
+
+        Vector2 direction = destination - currentLocation;
+        direction.Normalize();
+
+        currentLocation = transform.position;
+
+        Vector2 newPosition = currentLocation + (direction * 2f * Time.deltaTime);
+        transform.position = newPosition;
+
+        if (distance < 1f && targetReached == false )
         {
-            destination = waypoints[currentTarget].position;
-            float distance = Vector2.Distance(transform.position, destination);
-
-            Vector2 direction = destination - currentLocation;
-            direction.Normalize();
-
-            currentLocation = transform.position;
-
-            Vector2 newPosition = currentLocation + (direction * speed * Time.deltaTime);
-            transform.position = newPosition;
-
-            
-
-            if (distance < 1f && targetReached == false )
+            Debug.Log("inside if: patrolling");
+            targetReached = true;
+            if (reverse)
             {
-                targetReached = true;
-                if (reverse == false)
-                {
-                    print("if 1");
-                    currentTarget++;
-                }
-                else
-                {
-                    currentTarget--;
-                    print("if 2");
-                }
-
-                if (currentTarget == waypoints.Count)
-                {
-                    print("if 3");
-
-                    reverse = true;
-                }
-                else if (currentTarget == 0)
-                {
-                    print("if 4");
-
-                    reverse = false;
-                }
-
-                if (currentTarget != 0)
-                {
-                    print("if 5");
-                    speed = waypoints[currentTarget - 1].GetComponent<WaypointParameter>().movingspeed;
-
-                }
+                print("if 1");
+                currentTarget--;
             }
-            else if (targetReached == true)
+            else
             {
-                isWaiting = true;
-                StartCoroutine(Idle());
+                currentTarget++;
+                print("if 2");
             }
+
+            if (currentTarget == waypoints.Count)
+            {
+                print("if 3");
+
+                reverse = true;
+            }
+            else if (currentTarget == 0)
+            {
+                print("if 4");
+
+                reverse = false;
+            }
+
+            if (currentTarget != 0)
+            {
+                print("if 5");
+                speed = waypoints[currentTarget - 1].GetComponent<WaypointParameter>().movingspeed;
+
+            }
+        }
+        else if (targetReached == true)
+        {
+            isWaiting = true;
+            StartCoroutine(Idle());
         }
     }
 
