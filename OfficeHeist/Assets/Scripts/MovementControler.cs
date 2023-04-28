@@ -10,6 +10,7 @@ public class MovementControler : MonoBehaviour
     [SerializeField] private LayerMask interactLayer;
     [SerializeField] private float interactDistance = 2f;
     [SerializeField] private string[] levelNames;
+    [SerializeField] private string ElevatorName = "CardSwipe";
 
     private bool interactingWithComputer = false;
     private string currentLevelName = "";
@@ -60,7 +61,7 @@ public class MovementControler : MonoBehaviour
                     if (scene.name == currentLevelName)
                     {
                         sceneAlreadyLoaded = true;
-                        break;
+
                     }
                 }
 
@@ -72,8 +73,30 @@ public class MovementControler : MonoBehaviour
                     interactingWithComputer = true;
                 }
             }
+            else if (interactable.CompareTag("Elevator"))
+            {
+                // Check if the card swipe scene is already loaded
+                bool sceneAlreadyLoaded = false;
+                for (int i = 0; i < SceneManager.sceneCount; i++)
+                {
+                    Scene scene = SceneManager.GetSceneAt(i);
+                    if (scene.name == ElevatorName)
+                    {
+                        sceneAlreadyLoaded = true;
+                        break;
+                    }
+                }
+
+                // Load the card swipe scene if it isn't already loaded
+                if (!sceneAlreadyLoaded)
+                {
+                    SceneManager.LoadSceneAsync(ElevatorName, LoadSceneMode.Additive);
+                    interactingWithComputer = true;
+                }
+            }
         }
     }
+
 
     private void EndInteraction()
     {
