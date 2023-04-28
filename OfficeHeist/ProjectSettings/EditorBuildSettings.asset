@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SimonSays.unity
     guid: b9527b22bdcc93046a3ee02cd07ee2fb
+  - enabled: 1
+    path: Assets/Scenes/CardSwipe.unity
+    guid: 8429af1e9a9226a4cbc03935ba13dd93
+  - enabled: 1
+    path: Assets/Scenes/NumberMiniGame.unity
+    guid: 5e95921600af2b44482d493f9cbe1310
   m_configObjects: {}
