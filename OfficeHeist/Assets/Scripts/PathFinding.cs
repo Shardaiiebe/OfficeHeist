@@ -44,7 +44,7 @@ public class PathFinding : MonoBehaviour, IBehave
         Vector2 newPosition = currentLocation + (direction * 2f * Time.deltaTime);
         transform.position = newPosition;
         
-        if (distance < 1f && targetReached == false)
+        if (distance < 0.1f && targetReached == false)
         {
             targetReached = true;
 
