@@ -11,7 +11,7 @@ public class MovementControler : MonoBehaviour
     [SerializeField] private float speed = 5f;
     [SerializeField] private LayerMask interactLayer;
     [SerializeField] private float interactDistance = 2f;
-    [SerializeField] private string LevelName = "Level2";
+    [SerializeField] private string LevelName = "SimonSays";
 
 
 
