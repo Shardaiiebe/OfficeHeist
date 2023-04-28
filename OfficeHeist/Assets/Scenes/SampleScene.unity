@@ -230,6 +230,7 @@ MonoBehaviour:
   levelNames:
   - SimonSays
   - NumberMinigame
+  ElevatorName: CardSwipe
 --- !u!50 &172041201
 Rigidbody2D:
   serializedVersion: 4
@@ -627,7 +628,7 @@ GameObject:
   - component: {fileID: 776643026}
   m_Layer: 3
   m_Name: Capsule (7)
-  m_TagString: Computer
+  m_TagString: Elevator
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
